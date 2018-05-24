@@ -44,17 +44,17 @@ class Player:
         self.add(deck.draw())
 
 
-    def hit(self):
-        self.choice = input("Hit (Y/N)? ").lower
-        while self.choice == "y":
-            self.draw_from_deck()
+    def hit(self, deck):
+        self.choice = input("Hit (Y/N)? ").lower()
+        if self.choice == "y":
+            self.draw_from_deck(deck)
         return self.hand_value()
 
     def bust(self):
         score = self.hand_value()
         if score > 21:
             print("Bust!")
-            pass
+            
 
     def get_blackjack(self):
         score = self.hand_value()
@@ -83,11 +83,11 @@ while True:
     print(f"Player One:{player_1.hand_value()}")
     print(f"Player Two:{player_2.hand_value()}")
     print("Player 1")
-    player_1.hit()
+    player_1.hit(deck)
     player_1.bust()
     player_1.get_blackjack()
     print("Player 2")
-    player_2.hit()
+    player_2.hit(deck)
     player_2.bust()
     player_2.get_blackjack()
     print(f"Player One:{player_1.hand_value()}")
