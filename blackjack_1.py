@@ -3,24 +3,34 @@ import random
 
 class Card:
 
-    def __init__(self, value): #add suit
-        self.value = value # need suits in blackjack
-        #self.suit = suit
+    def __init__(self, value, suit):
+        self.value = value
+        self.suit = suit
+
+    def get_value(self):
+        if self.value == 'J':
+            return 10
+        if self.value == 'Q':
+            return 10
+        if self.value == 'K':
+            return 10
+        if self.value == 'A':
+            return 11
+
+        return self.value
+
 
 class Deck:
 
     def __init__(self): # creates range of cards and shuffles
         self.cards =[]
 
-        for value in range(2, 10):
-            self.cards.append(Card(value))
+        values = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A']
+        suits = ['Clubs', 'Spades', 'Hearts', 'Diamonds']
 
-        for value in range(11,13):
-            value = 10
-            self.cards.append(Card(value))
-        for value in range(14,14):
-            value = 11
-        self.cards.append(Card(value))
+        for value in values:
+            for suit in suits:
+                self.cards.append(Card(value, suit))
 
         random.shuffle(self.cards)
 
@@ -29,7 +39,7 @@ class Deck:
 
     def __str__(self): # shows you cards
         for card in self.cards:
-            print(card.value)
+            print(card.value, card.suit)
         return ""
 
 class Player:
@@ -44,6 +54,7 @@ class Player:
         self.add(deck.draw())
 
 
+
     def hit(self, deck):
         self.choice = input("Hit (Y/N)? ").lower()
         if self.choice == "y":
@@ -54,7 +65,7 @@ class Player:
         score = self.hand_value()
         if score > 21:
             print("Bust!")
-            
+
 
     def get_blackjack(self):
         score = self.hand_value()
@@ -64,7 +75,7 @@ class Player:
     def hand_value(self):
         value = 0
         for card in self.hand:
-            value += card.value
+            value += card.get_value()
         return value
 
 
