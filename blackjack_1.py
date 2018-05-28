@@ -49,57 +49,107 @@ class Player:
 
     def add(self, card):
         self.hand.append(card)
+        print (card)
 
-    def draw_from_deck(self, deck):
+    def draw(self, deck):
         self.add(deck.draw())
 
 
-
     def hit(self, deck):
-        self.choice = input("Hit (Y/N)? ").lower()
-        if self.choice == "y":
-            self.draw_from_deck(deck)
-        return self.hand_value()
+        self.choice = input("Hit or Stand? ").lower()
+        for choice in self.choice:
+            if self.choice == "hit":
+                self.draw(deck)
+            else:
+                break
+            return self.hand_value()
 
-    def bust(self):
+
+    """def dealer_play(self):
+        while self.player.hand_value() < 17:
+            self.hand += self.player.hit()
+            print(self.hand)
+            if self.player.hand_value() < 17:
+                self.hand += '' """
+
+
+
+    def check(self):
         score = self.hand_value()
         if score > 21:
             print("Bust!")
-
-
-    def get_blackjack(self):
-        score = self.hand_value()
-        if score == 21:
+        elif score == 21:
             print("Blackjack!")
 
     def hand_value(self):
         value = 0
         for card in self.hand:
             value += card.get_value()
+        if value > 21 and "A" in self.hand:
+            value -= 10
+
         return value
 
+    def __str__(self):
+        for card in self.hand:
+            print(card.value, card.suit)
+        return self.hand
 
+    """def __gt__(self, dealer):
+        return self.hand_value() > dealer.hand_value()
+
+    def __eq__(self, dealer):
+        return self.hand_value() == dealer.hand_value()"""
+
+"""class Dealer(Player):
+
+    def __init__(self):
+        self.hand = []
+
+    def dealer_hit(self):
+        if hand_value < 17:"""
+
+
+
+
+
+
+
+
+print("Dealing cards")
 deck = Deck()
-print (deck)
 
 while True:
     input()
+    player = Player()
+    dealer = Player()
 
-    player_1 = Player()
-    player_2 = Player()
-    player_1.draw_from_deck(deck)
-    player_1.draw_from_deck(deck)
-    player_2.draw_from_deck(deck)
-    player_2.draw_from_deck(deck)
-    print(f"Player One:{player_1.hand_value()}")
-    print(f"Player Two:{player_2.hand_value()}")
-    print("Player 1")
-    player_1.hit(deck)
-    player_1.bust()
-    player_1.get_blackjack()
-    print("Player 2")
-    player_2.hit(deck)
-    player_2.bust()
-    player_2.get_blackjack()
-    print(f"Player One:{player_1.hand_value()}")
-    print(f"Player Two:{player_2.hand_value()}")
+    for i in range(2):
+        player.draw(deck)
+        dealer.draw(deck)
+    print(f"Player:{player.hand_value()}")
+    print(f"Dealer:{dealer.hand_value()}")
+    while player.hand_value() < 21:
+        player.hit(deck)
+        print(f"Player:{player.hand_value()}")
+        player.check()
+    input()
+    while dealer.hand_value() < 17:
+        dealer.draw(deck)
+        print(f"Dealer:{dealer.hand_value()}")
+        dealer.check()
+    print(f"Player:{player.hand_value()}, Dealer:{dealer.hand_value()}")
+    if player.hand_value() <= 21 and dealer.hand_value() <= 21 and dealer.hand_value() > player.hand_value():
+        print("Dealer wins")
+    elif player.hand_value() > 21 and dealer.hand_value() <= 21:
+        print("Dealer wins")
+    elif player.hand_value() <= 21 and dealer.hand_value() <= 21 and dealer.hand_value() < player.hand_value():
+        print("You win!")
+    elif player.hand_value() <= 21 and dealer.hand_value() < 21:
+        print("You win!")
+    elif player.hand_value() <= 21 and dealer.hand_value() > 21:
+        print("You win!")
+    elif player.hand_value() <= 21 and dealer.hand_value() <= 21 and dealer.hand_value() == player.hand_value():
+        print("You tied")
+
+    exit()
