@@ -49,10 +49,11 @@ class Player:
 
     def add(self, card):
         self.hand.append(card)
-        print (card)
+        return self.hand
 
     def draw(self, deck):
         self.add(deck.draw())
+        return self.hand
 
 
     def hit(self, deck):
@@ -87,13 +88,14 @@ class Player:
             value += card.get_value()
         if value > 21 and "A" in self.hand:
             value -= 10
-
         return value
 
-    def __str__(self):
-        for card in self.hand:
-            print(card.value, card.suit)
+    """def __str__(self):
         return self.hand
+
+    def __repr__(self):
+        return Player(self.hand)"""
+
 
     """def __gt__(self, dealer):
         return self.hand_value() > dealer.hand_value()
@@ -118,7 +120,8 @@ class Player:
 
 print("Dealing cards")
 deck = Deck()
-
+#hand = Player()
+#print (hand)
 while True:
     input()
     player = Player()
@@ -129,15 +132,15 @@ while True:
         dealer.draw(deck)
     print(f"Player:{player.hand_value()}")
     print(f"Dealer:{dealer.hand_value()}")
-    while player.hand_value() < 21:
+    if player.hand_value() < 21:
         player.hit(deck)
         print(f"Player:{player.hand_value()}")
-        player.check()
+    player.check()
     input()
     while dealer.hand_value() < 17:
         dealer.draw(deck)
         print(f"Dealer:{dealer.hand_value()}")
-        dealer.check()
+    dealer.check()
     print(f"Player:{player.hand_value()}, Dealer:{dealer.hand_value()}")
     if player.hand_value() <= 21 and dealer.hand_value() <= 21 and dealer.hand_value() > player.hand_value():
         print("Dealer wins")
@@ -146,8 +149,6 @@ while True:
     elif player.hand_value() <= 21 and dealer.hand_value() <= 21 and dealer.hand_value() < player.hand_value():
         print("You win!")
     elif player.hand_value() <= 21 and dealer.hand_value() < 21:
-        print("You win!")
-    elif player.hand_value() <= 21 and dealer.hand_value() > 21:
         print("You win!")
     elif player.hand_value() <= 21 and dealer.hand_value() <= 21 and dealer.hand_value() == player.hand_value():
         print("You tied")
