@@ -122,35 +122,38 @@ print("Dealing cards")
 deck = Deck()
 #hand = Player()
 #print (hand)
-while True:
-    input()
-    player = Player()
-    dealer = Player()
+choice = True
+while choice:
+    choice = input("Would you like to play Blackjack? y/n ").lower()
+    if choice == "y":
+        player = Player()
+        dealer = Player()
 
-    for i in range(2):
-        player.draw(deck)
-        dealer.draw(deck)
-    print(f"Player:{player.hand_value()}")
-    print(f"Dealer:{dealer.hand_value()}")
-    if player.hand_value() < 21:
-        player.hit(deck)
+        for i in range(2):
+            player.draw(deck)
+            dealer.draw(deck)
         print(f"Player:{player.hand_value()}")
-    player.check()
-    input()
-    while dealer.hand_value() < 17:
-        dealer.draw(deck)
         print(f"Dealer:{dealer.hand_value()}")
-    dealer.check()
-    print(f"Player:{player.hand_value()}, Dealer:{dealer.hand_value()}")
-    if player.hand_value() <= 21 and dealer.hand_value() <= 21 and dealer.hand_value() > player.hand_value():
-        print("Dealer wins")
-    elif player.hand_value() > 21 and dealer.hand_value() <= 21:
-        print("Dealer wins")
-    elif player.hand_value() <= 21 and dealer.hand_value() <= 21 and dealer.hand_value() < player.hand_value():
-        print("You win!")
-    elif player.hand_value() <= 21 and dealer.hand_value() < 21:
-        print("You win!")
-    elif player.hand_value() <= 21 and dealer.hand_value() <= 21 and dealer.hand_value() == player.hand_value():
-        print("You tied")
+        if player.hand_value() < 21:
+            player.hit(deck)
+            print(f"Player:{player.hand_value()}")
+        player.check()
+        input()
+        while dealer.hand_value() < 17:
+            dealer.draw(deck)
+            print(f"Dealer:{dealer.hand_value()}")
+        dealer.check()
+        print(f"Player:{player.hand_value()}, Dealer:{dealer.hand_value()}")
+        if player.hand_value() <= 21 and dealer.hand_value() <= 21 and dealer.hand_value() > player.hand_value():
+            print("Dealer wins")
+        elif player.hand_value() > 21 and dealer.hand_value() <= 21:
+            print("Dealer wins")
+        elif player.hand_value() <= 21 and dealer.hand_value() <= 21 and dealer.hand_value() < player.hand_value():
+            print("You win!")
+        elif player.hand_value() <= 21 and dealer.hand_value() > 21:
+            print("You win!")
+        elif player.hand_value() <= 21 and dealer.hand_value() <= 21 and dealer.hand_value() == player.hand_value():
+            print("You tied")
 
-    exit()
+    if choice == "n":
+        exit()
