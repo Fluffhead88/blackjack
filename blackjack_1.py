@@ -19,6 +19,9 @@ class Card:
 
         return self.value
 
+    def __str__(self):
+        pass
+
 
 class Deck:
 
@@ -55,25 +58,9 @@ class Player:
         self.add(deck.draw())
         return self.hand
 
-
     def hit(self, deck):
-        self.choice = input("Hit or Stand? ").lower()
-        for choice in self.choice:
-            if self.choice == "hit":
-                self.draw(deck)
-            else:
-                break
-            return self.hand_value()
-
-
-    """def dealer_play(self):
-        while self.player.hand_value() < 17:
-            self.hand += self.player.hit()
-            print(self.hand)
-            if self.player.hand_value() < 17:
-                self.hand += '' """
-
-
+        self.draw(deck)
+        return self.hand_value()
 
     def check(self):
         score = self.hand_value()
@@ -91,37 +78,25 @@ class Player:
         return value
 
     """def __str__(self):
-        return self.hand
+        return self.hand"""
 
-    def __repr__(self):
+    """def __repr__(self):
         return Player(self.hand)"""
 
-
-    """def __gt__(self, dealer):
+    def __gt__(self, dealer):
         return self.hand_value() > dealer.hand_value()
 
     def __eq__(self, dealer):
-        return self.hand_value() == dealer.hand_value()"""
-
-"""class Dealer(Player):
-
-    def __init__(self):
-        self.hand = []
-
-    def dealer_hit(self):
-        if hand_value < 17:"""
-
-
-
-
-
-
+        return self.hand_value() == dealer.hand_value()
 
 
 print("Dealing cards")
 deck = Deck()
-#hand = Player()
-#print (hand)
+"""hand = Player()
+print (hand)"""
+
+# Start game with 2 cards
+
 choice = True
 while choice:
     choice = input("Would you like to play Blackjack? y/n ").lower()
@@ -132,18 +107,40 @@ while choice:
         for i in range(2):
             player.draw(deck)
             dealer.draw(deck)
+
+# Player hit sequence
+
         print(f"Player:{player.hand_value()}")
         print(f"Dealer:{dealer.hand_value()}")
         if player.hand_value() < 21:
-            player.hit(deck)
-            print(f"Player:{player.hand_value()}")
+            choices = input("Would you like to hit? Y/N > ").lower()
+            for choice in choices:
+                if choice == "y":
+                    player.hit(deck)
+                if choice == "n":
+                    pass
+        print(f"Player:{player.hand_value()}")
+        print(f"Dealer:{dealer.hand_value()}")
+        if player.hand_value() < 21:
+            choices = input("Would you like to hit? Y/N > ").lower()
+            for choice in choices:
+                if choice == "y":
+                    player.hit(deck)
+                if choice == "n":
+                    pass
         player.check()
-        input()
+
+# Dealer hit sequence
+
         while dealer.hand_value() < 17:
+            print ("Dealer draws\n")
             dealer.draw(deck)
             print(f"Dealer:{dealer.hand_value()}")
         dealer.check()
         print(f"Player:{player.hand_value()}, Dealer:{dealer.hand_value()}")
+        
+# check who wins
+
         if player.hand_value() <= 21 and dealer.hand_value() <= 21 and dealer.hand_value() > player.hand_value():
             print("Dealer wins")
         elif player.hand_value() > 21 and dealer.hand_value() <= 21:
